@@ -73,9 +73,11 @@ class GoogleStaticMap extends Component {
   static propTypes = {
     ...imagePropTypes,
 
-    latitude: PropTypes.string.isRequired,
+    latitude: PropTypes.string,
 
-    longitude: PropTypes.string.isRequired,
+    longitude: PropTypes.string,
+
+    center: PropTypes.string,
 
     size: PropTypes.shape({
       width: PropTypes.number.isRequired,
@@ -124,6 +126,9 @@ class GoogleStaticMap extends Component {
     format: IMAGE_FORMATS.PNG,
     mapType: MAP_TYPES.ROADMAP,
     hasCenterMarker: true,
+    latitude: '0',
+    longitude: '0',
+    center: '0',
     onLoad: () => {},
     onError: () => {}
   };
@@ -149,13 +154,14 @@ class GoogleStaticMap extends Component {
       size,
       scale,
       format,
+      center,
       mapType
       } = this.props;
 
     const {width, height} = size;
     const rootUrl = this.constructor.RootUrl;
-
-    return `${rootUrl}?center=${latitude},${longitude}&zoom=${zoom}&scale=${scale}&size=${width}x${height}&maptype=${mapType}&format=${format}&${this.markerParams}&${this.apiKeyParam}`;
+    
+    return `${rootUrl}?center=${latitude!='0' ? latitude + ',' + longitude : center}&zoom=${zoom}&scale=${scale}&size=${width}x${height}&maptype=${mapType}&format=${format}&${this.markerParams}&${this.apiKeyParam}`;
   }
 
   get markerParams() {
