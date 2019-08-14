@@ -168,10 +168,11 @@ class GoogleStaticMap extends Component {
     const {
       latitude,
       longitude,
+      center,
       hasCenterMarker
       } = this.props;
 
-    const markerParams = `markers=${latitude},${longitude}`;
+    const markerParams = `markers=${latitude != '0' ? latitude + ',' + longitude : center}`;
     return hasCenterMarker ? markerParams : '';
   }
 
